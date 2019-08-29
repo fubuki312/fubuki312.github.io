@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fubuki</title>
+    <link>https://fubuki312.github.io/</link>
+    <description>Recent content on Fubuki</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 29 Aug 2019 16:45:39 +0800</lastBuildDate>
+    
+	<atom:link href="https://fubuki312.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>单例模式和多例模式</title>
+      <link>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 29 Aug 2019 16:45:39 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例和多例模式的区别 在了解单例和多例的区别时，先了解什么是单例什么是多例
+单例模式 用我自己的理解，单例模式就是从始至终，使用的都是同一个实例对象，当该实例对象的属性被某个对象改变后，其余对象再去调用实例对象的属性，是改变后的值
+多例模式 每次使用实例对象，都是一个新的实例对象，当实例对象的属性被某个对象改变后，其他对象再去调用实例对象的属性，值还是原本的值，并不会因为被其他对象修改后而改变
+使用场景 在使用反射机制的时候，是比较明显的《 反射机制 》
+在使用反射机制时，如果使用多例模式，那么会创建多个实例对象，每个实例对象的内存空间地址都不一样，每次都会默认调用对象的无参构造函数进行初始化，这样不仅浪费内存空间，还会额外消耗CPU功耗
+而使用单例模式，从原理上是先将Map容器放进static静态块，从而使Map只初始化一次，之后从配置文件中拿取出所有的key进行遍历，将key存放到Map容器中，再通过反射用key获取value，从而通过反射机制来创建对象拿取value，最后将key和value存入Map容器中，此时在去Map容器中拿取类，都拿的是同一个对象，减少了内存空间的占用，提高了程序的性能</description>
+    </item>
+    
+    <item>
+      <title>记一次使用Mybatis Plus遇到的连表查询问题</title>
+      <link>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 28 Aug 2019 11:25:44 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</guid>
+      <description>记一次使用Mybatis-Plus遇到的连表查询问题 一开始使用Mybatis-Plus，看到是mybatis的增强版，我以为能把繁琐的xml配置文件问题解决，事实上，也确实解决了一些，例如单表查询就不需配置xml文件，会自动映射，但是当使用连表查询的时候，就依然需要使用映射文件去配置
+首先我导入的是
+​ 导入的包不同，在配置文件中的配置也不同，见
+​ mybatis-plus的 mapper.xml 路径配置的坑
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  然后在项目配置文件中配置
+mybatis-plus: #mapper映射文件路径 mapper-locations: classpath:/mapper/*.xml #扫描实体 type-aliases-package: com.xxx.xxx.entity  SpringBoot启动类上
+@MapperScan(&amp;quot;com.xxx.xxx.mapper&amp;quot;) @SpringBootApplication public class xxxApplication { public static void main(String[] args) { SpringApplication.run(xxxApplication.class, args); } }  自定义Mapper接口继承BaseMapper
+public interface UserMapper extends BaseMapper&amp;lt;User&amp;gt;{ User selectUserByLogin(@Param(&amp;quot;name&amp;quot;) String name, @Param(&amp;quot;password&amp;quot;) String password); }  Mapper.xml文件
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;!DOCTYPE mapper PUBLIC &amp;quot;-//mybatis.org//DTD Mapper 3.0//EN&amp;quot; &amp;quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&amp;quot;&amp;gt; &amp;lt;mapper namespace=&amp;quot;com.xxx.xxx.mapper.UserMapper&amp;quot;&amp;gt; &amp;lt;select id=&amp;quot;selectUserByLogin&amp;quot; resultMap=&amp;quot;userLevel&amp;quot;&amp;gt; select u.</description>
+    </item>
+    
+    <item>
+      <title>RestTemplateNotFound解决办法</title>
+      <link>https://fubuki312.github.io/post/resttemplatenotfound%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Wed, 28 Aug 2019 10:51:54 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/resttemplatenotfound%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>RestTemplate通过@Resource报：could not be found 当我在一个项目中创建俩个springBoot子模块，把实体、dao层、映射层都配置完毕后
+使用RestTemplate进行模块间的通信，启动调用了RestTemplate的模块时，发生以下错误
+可以看到，描述的信息是RestTemplate未找到
+因为Spring容器没有注册RestTemplate实例，也就无法自动注入
+所以RestTemplate需要我们自己去进行初始化注入，才能使用
+正确的做法就是将RestTemplate注册到Spring容器中，另外RestTemplate还需要一个参数，该参数的依赖是
+org.springframework.http.client.ClientHttpRequestFactory
+SpringBoot提倡的方法时通过JavaConfig方式注册我们需要的Bean元素
+import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Configuration; import org.springframework.web.client.RestTemplate; import org.springframework.http.client.ClientHttpRequestFactory; import org.springframework.http.client.SimpleClientHttpRequestFactory; @Configuration public class RestTemplateConfig { @Bean public RestTemplate restTemplate(ClientHttpRequestFactory factory) { return new RestTemplate(factory); } @Bean public ClientHttpRequestFactory simpleClientHttpRequestFactory() { SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory(); factory.setReadTimeout(5000);//ms factory.setConnectTimeout(15000);//ms return factory; } }  这俩个Bean就是RestTemplate实例的依赖，有这个配置类时候，我们再使用@Resource方式注入我们的RestTemplate就不会报错了
+有篇文章详细讲解了自动注入《@Autowired自动注入实例》，我尝试通过文章中提到的“@Autowired自动注入有参数依赖对象的写法”编写类似的代码后，发现即便是没有这个配置类，没有进行Bean的注册，照样可以成功的启动项目，这是它的写法
+private RestTemplate restTemplate; private ClientHttpRequestFactory factory; @Autowired public void setFactory(){ SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory(); factory.</description>
+    </item>
+    
+    <item>
+      <title>Java反射机制</title>
+      <link>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 29 Jul 2019 14:18:23 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</guid>
+      <description>什么是Java反射机制？ 首先，反射机制的功能都在java.lang.reflect包中
+Java反射机制就是在程序运行的时候，可以通过制定的类名来获得类的信息。
+像我们平常写Java代码，要使用某个类的时候，通常会使用new来实例化一个类对象，如果不将此类实例化，那么代码在编译期间就会报错，无法正常写下去。所以反射机制就是在编译期不具体指定哪个类被实例化了，而是在程序运行的时候才会指定、加载某个类，使用编译期间并不知道的嘞，这样就是反射。
+那我们要怎么去使用呢？ 首先在Java中创建一个类，例如该类的包名为com.demo.test.entity
+public class User{ private String userName; private int age = 1; public String sayHi(){ age++; return &amp;quot;大家好，我是渣渣辉，今年：&amp;quot;+age+&amp;quot;岁&amp;quot;; } }  在resource文件夹中创建一个bean.properties文件
+#写上全限定类名 #根据key=value的形式进行存储 user=com.demo.test.entity.User  创建一个类用于实现反射机制
+public class BeanFactory{ //定义一个properties对象 private static Properties properties; //使用静态代码块为properties对象赋值 static { //实例化对象 properties = new Properties(); //获取properties文件的流对象 InputStream inputStream = BeanFactory.class.getClassLoader().getResourceAsStream(&amp;quot;bean.properties&amp;quot;); try{ properties.load(inputStream); }catch (Exception e){ throw new ExceptionInInitializerError(&amp;quot;初始化properties失败&amp;quot;); } } /** * 根据Bean的名称获取Bean对象 * @param beanName * @return */ public static Object getBean(String beanName){ Object bean = null; try{ //通过指定key，拿取全限定类名 String beanPath = properties.</description>
+    </item>
+    
+    <item>
+      <title>解析HashMap源码</title>
+      <link>https://fubuki312.github.io/post/%E8%A7%A3%E6%9E%90hashmap%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Fri, 29 Mar 2019 14:47:08 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E8%A7%A3%E6%9E%90hashmap%E6%BA%90%E7%A0%81/</guid>
+      <description>抽空花时间自己去看了下，以及网上查阅各种资料，自己的一个理解
+package java.util; import java.io.*; public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt; implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable { // 默认的初始容量是16，必须是2的幂。 static final int DEFAULT_INITIAL_CAPACITY = 16; // 最大容量（必须是2的幂且小于2的30次方，传入容量过大将被这个值替换） static final int MAXIMUM_CAPACITY = 1 &amp;lt;&amp;lt; 30; // 默认加载因子 static final float DEFAULT_LOAD_FACTOR = 0.75f; // 存储数据的Entry数组，长度是2的幂。 // HashMap是采用拉链法实现的，每一个Entry本质上是一个单向链表 transient Entry[] table; // HashMap的大小，它是HashMap保存的键值对的数量 transient int size; // HashMap的阈值，用于判断是否需要调整HashMap的容量（threshold = 容量*加载因子） int threshold; // 加载因子实际大小 final float loadFactor; // HashMap被改变的次数 transient volatile int modCount; // 指定“容量大小”和“加载因子”的构造函数 public HashMap(int initialCapacity, float loadFactor) { if (initialCapacity &amp;lt; 0) throw new IllegalArgumentException(&amp;quot;Illegal initial capacity: &amp;quot; + initialCapacity); // HashMap的最大容量只能是MAXIMUM_CAPACITY if (initialCapacity &amp;gt; MAXIMUM_CAPACITY) initialCapacity = MAXIMUM_CAPACITY; if (loadFactor &amp;lt;= 0 || Float.</description>
+    </item>
+    
+    <item>
+      <title>Hashtable和HashMap的区别</title>
+      <link>https://fubuki312.github.io/post/hashtable%E5%92%8Chashmap%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Wed, 27 Mar 2019 13:32:26 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/hashtable%E5%92%8Chashmap%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>HashMap介绍 HashMap简介 ​ 是一个散列表，它存储的内容是键值对映射。
+​ 继承于AbstractMap，实现了Map、Cloneable、java.io.Serializable接口。
+​ 实现不是同步的，意味着它是线程不安全的。
+​ key和value都可以为null。
+​ 映射不是有序的
+HashMap的构造函数 ​ 默认构造函数
+/** * 构建一个新的空哈希表，具有默认初始容量（16），和负载系数（0.75） */ public HashMap() { this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted }  ​ 指定&amp;rdquo;容量大小&amp;rdquo;的构造函数
+/** * 使用指定的初始容量构建新的空哈希表和默认负载系数（0.75） * * @param 初始哈希表的容量 * @exception 非法参数异常，如果初始量过小或小于0 */ public HashMap(int initialCapacity) { this(initialCapacity, DEFAULT_LOAD_FACTOR); }  ​ 指定&amp;rdquo;容量大小&amp;rdquo;和&amp;rdquo;加载因子&amp;rdquo;的构造函数
+/** * 使用指定的初始容量构建心的空哈希表，指定容量和指定的负载系数 * * @param 初始哈希表的容量 * @param 负载系数 * @exception 非法参数异常，如果初始量或负载因子为非正数 */ public HashMap(int initialCapacity, float loadFactor) { if (initialCapacity &amp;lt; 0) throw new IllegalArgumentException(&amp;quot;Illegal initial capacity: &amp;quot; + initialCapacity); if (initialCapacity &amp;gt; MAXIMUM_CAPACITY) initialCapacity = MAXIMUM_CAPACITY; if (loadFactor &amp;lt;= 0 || Float.</description>
+    </item>
+    
+  </channel>
+</rss>

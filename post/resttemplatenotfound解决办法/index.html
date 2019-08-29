@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
+  <meta name="Description" content="Fubuki | ">
+  <title>
+    
+    
+    RestTemplateNotFound解决办法 - Fubuki
+    
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/highlight/styles/github-gist.css">  
+  <link rel="canonical" href="https://fubuki312.github.io/post/resttemplatenotfound%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+  <link href="" rel="alternate" type="application/rss+xml" title="RestTemplateNotFound解决办法" />
+   </head>
+   <body data-spy="scroll" data-target="#toc">
+     <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://fubuki312.github.io/">Fubuki</a>
+    </div>
+
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+	
+	
+	<li  ><a href="/">Home</a></li>
+      </ul>
+    </nav>
+</header>
+
+     <div class="jumbotron masthead" role="main">
+       <div class="container"  style="height: 100%;" >
+	 <div class="row">
+
+ 	   <div class="col-md-8 col-md-offset-2 ">
+	   
+<div class="panel panel-default">
+  <div class="panel-body">
+      <article id='post' >
+	<div class='title'> RestTemplateNotFound解决办法 </div>
+	  
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp;Wed Aug 28, 2019 | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: 87&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: 1 Minute&nbsp;&nbsp;</span>
+
+	  
+
+<h3 id="resttemplate通过-resource报-could-not-be-found">RestTemplate通过@Resource报：could not be found</h3>
+
+<p>当我在一个项目中创建俩个springBoot子模块，把实体、dao层、映射层都配置完毕后</p>
+
+<p><img src="images/RestTemplate.png" alt="" /></p>
+
+<p>使用RestTemplate进行模块间的通信，启动调用了RestTemplate的模块时，发生以下错误</p>
+
+<p><img src="images/RestTemplate_notfound.png" alt="" /></p>
+
+<p>可以看到，描述的信息是RestTemplate未找到</p>
+
+<p>因为Spring容器没有注册RestTemplate实例，也就无法自动注入</p>
+
+<p>所以RestTemplate需要我们自己去进行初始化注入，才能使用</p>
+
+<p>正确的做法就是将RestTemplate注册到Spring容器中，另外RestTemplate还需要一个参数，该参数的依赖是</p>
+
+<p>org.springframework.http.client.ClientHttpRequestFactory</p>
+
+<p>SpringBoot提倡的方法时通过JavaConfig方式注册我们需要的Bean元素</p>
+
+<pre><code class="language-java">import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+@Configuration
+public class RestTemplateConfig {
+
+    @Bean
+    public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
+        return new RestTemplate(factory);
+    }
+
+    @Bean
+    public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(5000);//ms
+        factory.setConnectTimeout(15000);//ms
+        return factory;
+    }
+}
+</code></pre>
+
+<p>这俩个Bean就是RestTemplate实例的依赖，有这个配置类时候，我们再使用@Resource方式注入我们的RestTemplate就不会报错了</p>
+
+<p>有篇文章详细讲解了自动注入《<strong><a href="https://blog.csdn.net/yunshixin/article/details/52435325">@Autowired自动注入实例</a></strong>》，我尝试通过文章中提到的“@Autowired自动注入有参数依赖对象的写法”编写类似的代码后，发现即便是没有这个配置类，没有进行Bean的注册，照样可以成功的启动项目，这是它的写法</p>
+
+<pre><code class="language-java">private RestTemplate restTemplate;
+private ClientHttpRequestFactory factory;
+
+@Autowired
+public void setFactory(){
+    SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+    factory.setReadTimeout(5000);
+    factory.setConnectTimeout(15000);
+    this.factory = factory;
+}
+@Autowired
+public void setRestTemplate(){
+    this.restTemplate = new RestTemplate(this.factory);
+}
+</code></pre>
+
+<p>设置了俩个私有属性restTemplate和factory，然后通过设置参数的方式自动完成对对象的注入，即使没有Java</p>
+
+<p>Config的去注册Bean，依然可以成功运行。</p>
+
+
+	  
+	  	  <div class="tags">	
+
+	      
+	    
+
+	    	  </div>
+	    
+
+
+      </div>
+      </div></article>
+
+
+	 </div>
+
+	 </div>
+       </div>
+     </div>
+
+
+   </body>
+     <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/holder.min.js" type='text/javascript'></script>
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+  <script src="/highlight/highlight.pack.js" type='text/javascript'></script>
+  <script src="/highlight/highlightjs-line-numbers.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    
+    hljs.initHighlightingOnLoad();
+    $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+    hljs.lineNumbersBlock(block);
+    });
+});
+  </script>
+
+</html>

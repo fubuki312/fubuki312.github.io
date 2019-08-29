@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
+  <meta name="Description" content="Fubuki | ">
+  <title>
+    
+    
+    Java反射机制 - Fubuki
+    
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/highlight/styles/github-gist.css">  
+  <link rel="canonical" href="https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+  <link href="" rel="alternate" type="application/rss+xml" title="Java反射机制" />
+   </head>
+   <body data-spy="scroll" data-target="#toc">
+     <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://fubuki312.github.io/">Fubuki</a>
+    </div>
+
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+	
+	
+	<li  ><a href="/">Home</a></li>
+      </ul>
+    </nav>
+</header>
+
+     <div class="jumbotron masthead" role="main">
+       <div class="container"  style="height: 100%;" >
+	 <div class="row">
+
+ 	   <div class="col-md-8 col-md-offset-2 ">
+	   
+<div class="panel panel-default">
+  <div class="panel-body">
+      <article id='post' >
+	<div class='title'> Java反射机制 </div>
+	  
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp;Mon Jul 29, 2019 | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: 243&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: 2 Minute&nbsp;&nbsp;</span>
+
+	  
+
+<h3 id="什么是java反射机制">什么是Java反射机制？</h3>
+
+<p>首先，反射机制的功能都在java.lang.reflect包中</p>
+
+<p>Java反射机制就是在程序运行的时候，可以通过制定的类名来获得类的信息。</p>
+
+<p>像我们平常写Java代码，要使用某个类的时候，通常会使用new来实例化一个类对象，如果不将此类实例化，那么代码在编译期间就会报错，无法正常写下去。所以反射机制就是在编译期不具体指定哪个类被实例化了，而是在程序运行的时候才会指定、加载某个类，使用编译期间并不知道的嘞，这样就是反射。</p>
+
+<h4 id="那我们要怎么去使用呢">那我们要怎么去使用呢？</h4>
+
+<p>首先在Java中创建一个类，例如该类的包名为com.demo.test.entity</p>
+
+<pre><code class="language-java">public class User{
+    private String userName;
+    private int age = 1;
+    public String sayHi(){
+        age++;
+        return &quot;大家好，我是渣渣辉，今年：&quot;+age+&quot;岁&quot;;
+    }
+}
+</code></pre>
+
+<p>在resource文件夹中创建一个bean.properties文件</p>
+
+<pre><code class="language-properties">#写上全限定类名
+#根据key=value的形式进行存储
+user=com.demo.test.entity.User
+</code></pre>
+
+<p>创建一个类用于实现反射机制</p>
+
+<pre><code class="language-java">public class BeanFactory{
+        //定义一个properties对象
+    private static Properties properties;
+    //使用静态代码块为properties对象赋值
+    static {
+        //实例化对象
+        properties = new Properties();
+        //获取properties文件的流对象
+        InputStream inputStream = BeanFactory.class.getClassLoader().getResourceAsStream(&quot;bean.properties&quot;);
+        try{
+            properties.load(inputStream);
+        }catch (Exception e){
+            throw new ExceptionInInitializerError(&quot;初始化properties失败&quot;);
+        }
+    }
+    /**
+     * 根据Bean的名称获取Bean对象
+     * @param beanName
+     * @return
+     */
+    public static Object getBean(String beanName){
+        Object bean = null;
+        try{
+            //通过指定key，拿取全限定类名
+            String beanPath = properties.getProperty(beanName);
+            //输出全限定类名
+            System.out.print(beanPath)
+            //实例化bean 相当于 user = new User();
+            bean = Class.forName(beanPath).newInstance();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bean;
+    }
+}
+</code></pre>
+
+<p>创建测试类Test.java</p>
+
+<pre><code class="language-java">public class Test{
+    public static void main(String [] args){
+        for(int i=0 ; i&lt;5 ; i++) {
+            User user = (User) BeanFactory.getBean(&quot;User&quot;);
+            System.out.println(user.sayHi());
+        }
+    }
+}
+</code></pre>
+
+<p>最后运行测试，控制台成功输出全限定类名及sayHi</p>
+
+<pre><code class="language-java">com.demo.test.entity.User@u4b1b
+大家好，我是渣渣辉，今年2岁
+com.demo.test.entity.User@8cq8s
+大家好，我是渣渣辉，今年2岁
+com.demo.test.entity.User@91ks9
+大家好，我是渣渣辉，今年2岁
+com.demo.test.entity.User@8cbv3
+大家好，我是渣渣辉，今年2岁
+com.demo.test.entity.User@0cyh1
+大家好，我是渣渣辉，今年2岁
+</code></pre>
+
+<p>可以看到成功的输出了全限定类名和sayHi方法</p>
+
+<p>注意，此时创建的对象是多例模式下的，每个类的地址都不一样，相当于我们实例化了5个User对象</p>
+
+<p>了解什么是多例什么是单例《 <a href="单例模式和多例模式.md">单例模式和多例模式</a> 》</p>
+
+<p>如果要实现单例模式，需要在BeanFactory中添加一个存放创建对象的容器</p>
+
+<pre><code class="language-java">public class BeanFactory{
+    //定义一个properties对象
+    private static Properties properties;
+    //定义一个Map对象，用于存放要创建的对象
+    private static Map&lt;String,Object&gt; beans;
+    //使用静态代码块为properties对象赋值
+    static {
+        //实例化对象
+        properties = new Properties();
+        //获取properties文件的流对象
+        InputStream inputStream = BeanFactory.class.getClassLoader().getResourceAsStream(&quot;bean.properties&quot;);
+        try{
+            properties.load(inputStream);
+            //实例化容器
+            beans = new HashMap&lt;&gt;();
+            //去除所有配置文件中的key
+            Enumeration keys = properties.keys();
+            //遍历
+            while(keys.hasMoreElements()){
+                //取出每个key
+                String key = keys.nextElement().toString();
+                //根据key获取value
+                String beanPath = properties.getProperty(key);
+                //反射创建对象
+                Object value = Class.forName(beanPath).newInstance();
+                //把key和value存入容器之中
+                beans.put(key,value);
+            }
+        }catch (Exception e){
+            throw new ExceptionInInitializerError(&quot;初始化properties失败&quot;);
+        }
+    }
+    /**
+     * 根据Bean的名称获取Bean对象
+     * @param beanName
+     * @return
+     */
+    public static Object getBean(String beanName){
+        return beans.get(beanName);
+    }
+}
+</code></pre>
+
+<p>再次运行，控制台输出变成了</p>
+
+<pre><code class="language-java">com.demo.test.entity.User@h1jg2
+大家好，我是渣渣辉，今年2岁
+com.demo.test.entity.User@h1jg2
+大家好，我是渣渣辉，今年3岁
+com.demo.test.entity.User@h1jg2
+大家好，我是渣渣辉，今年4岁
+com.demo.test.entity.User@h1jg2
+大家好，我是渣渣辉，今年5岁
+com.demo.test.entity.User@h1jg2
+大家好，我是渣渣辉，今年6岁
+</code></pre>
+
+
+	  
+	  	  <div class="tags">	
+
+	      
+	    
+
+	    	  </div>
+	    
+
+
+      </div>
+      </div></article>
+
+
+	 </div>
+
+	 </div>
+       </div>
+     </div>
+
+
+   </body>
+     <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/holder.min.js" type='text/javascript'></script>
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+  <script src="/highlight/highlight.pack.js" type='text/javascript'></script>
+  <script src="/highlight/highlightjs-line-numbers.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    
+    hljs.initHighlightingOnLoad();
+    $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+    hljs.lineNumbersBlock(block);
+    });
+});
+  </script>
+
+</html>

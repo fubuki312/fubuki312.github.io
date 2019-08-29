@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
+  <meta name="Description" content="Fubuki | ">
+  <title>
+    
+    
+    单例模式和多例模式 - Fubuki
+    
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/highlight/styles/github-gist.css">  
+  <link rel="canonical" href="https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+  <link href="" rel="alternate" type="application/rss+xml" title="单例模式和多例模式" />
+   </head>
+   <body data-spy="scroll" data-target="#toc">
+     <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://fubuki312.github.io/">Fubuki</a>
+    </div>
+
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+	
+	
+	<li  ><a href="/">Home</a></li>
+      </ul>
+    </nav>
+</header>
+
+     <div class="jumbotron masthead" role="main">
+       <div class="container"  style="height: 100%;" >
+	 <div class="row">
+
+ 	   <div class="col-md-8 col-md-offset-2 ">
+	   
+<div class="panel panel-default">
+  <div class="panel-body">
+      <article id='post' >
+	<div class='title'> 单例模式和多例模式 </div>
+	  
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp;Thu Aug 29, 2019 | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: 12&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: 1 Minute&nbsp;&nbsp;</span>
+
+	  
+
+<h3 id="单例和多例模式的区别">单例和多例模式的区别</h3>
+
+<p>在了解单例和多例的区别时，先了解什么是单例什么是多例</p>
+
+<h4 id="单例模式">单例模式</h4>
+
+<p>用我自己的理解，单例模式就是从始至终，使用的都是同一个实例对象，当该实例对象的属性被某个对象改变后，其余对象再去调用实例对象的属性，是改变后的值</p>
+
+<h4 id="多例模式">多例模式</h4>
+
+<p>每次使用实例对象，都是一个新的实例对象，当实例对象的属性被某个对象改变后，其他对象再去调用实例对象的属性，值还是原本的值，并不会因为被其他对象修改后而改变</p>
+
+<h4 id="使用场景">使用场景</h4>
+
+<p>在使用反射机制的时候，是比较明显的《 <a href="反射机制.md">反射机制</a> 》</p>
+
+<p>在使用反射机制时，如果使用多例模式，那么会创建多个实例对象，每个实例对象的内存空间地址都不一样，每次都会默认调用对象的无参构造函数进行初始化，这样不仅浪费内存空间，还会额外消耗CPU功耗</p>
+
+<p>而使用单例模式，从原理上是先将Map容器放进static静态块，从而使Map只初始化一次，之后从配置文件中拿取出所有的key进行遍历，将key存放到Map容器中，再通过反射用key获取value，从而通过反射机制来创建对象拿取value，最后将key和value存入Map容器中，此时在去Map容器中拿取类，都拿的是同一个对象，减少了内存空间的占用，提高了程序的性能</p>
+
+
+	  
+	  	  <div class="tags">	
+
+	      
+	    
+
+	    	  </div>
+	    
+
+
+      </div>
+      </div></article>
+
+
+	 </div>
+
+	 </div>
+       </div>
+     </div>
+
+
+   </body>
+     <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/holder.min.js" type='text/javascript'></script>
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+  <script src="/highlight/highlight.pack.js" type='text/javascript'></script>
+  <script src="/highlight/highlightjs-line-numbers.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    
+    hljs.initHighlightingOnLoad();
+    $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+    hljs.lineNumbersBlock(block);
+    });
+});
+  </script>
+
+</html>
