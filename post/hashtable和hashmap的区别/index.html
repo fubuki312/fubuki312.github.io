@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
   <meta name="Description" content="Fubuki | ">
+	   	   <style>
+		   p>img{
+		   width:80%;
+		   }
+	   </style>
   <title>
     
     
@@ -277,9 +282,9 @@ synchronized Collection&lt;V&gt;        values()//返回包含所有value的Coll
 
 <p>​       HashMap和Hashtable不仅作者不同，而且连父类也是不一样的。HashMap是继承自AbstractMap类，而HashTable是继承自Dictionary类。不过它们都实现了同时实现了map、Cloneable（可复制）、Serializable（可序列化）这三个接口</p>
 
-<p><img src="/images/HashMap.jpg" alt="" /></p>
+<p><img src="../images/HashMap.jpg" alt="" /></p>
 
-<p><img src="/images/Hashtable.jpg" alt="" /></p>
+<p><img src="../images/Hashtable.jpg" alt="" /></p>
 
 <p>Dictionary类是一个已经被废弃的类（见其源码中的注释）。父类都被废弃，自然而然也没人用它的子类Hashtable了。</p>
 
@@ -291,21 +296,21 @@ synchronized Collection&lt;V&gt;        values()//返回包含所有value的Coll
 
 <p>​       contains()方法判断该Hashtable是否包含传入的value。它的作用域containsValue()一致。事实上contansValue()就只是调用了一下contains()方法</p>
 
-<p><img src="/images/hashtable-contansValue.png" alt="1565855179219" /></p>
+<p><img src="../images/hashtable-contansValue.png" alt="1565855179219" /></p>
 
 <h2 id="对null-key和null-value的支持不同">对Null key和Null value的支持不同</h2>
 
 <p>​       Hashtable既不支持null key也不支持null value。Hashtable的put()方法的注释中有说明</p>
 
-<p><img src="/images/hashtable-nullkey.png" alt="1565855338157" /></p>
+<p><img src="../images/hashtable-nullkey.png" alt="1565855338157" /></p>
 
 <p>​       当key为null的时候，调用put()方法，运行到红方块这步便会抛出空指针，因为拿了一个null去调用它的方法</p>
 
-<p><img src="/images/hashtable-put-nullkey.png" alt="1565855509934" /></p>
+<p><img src="../images/hashtable-put-nullkey.png" alt="1565855509934" /></p>
 
 <p>​       当value为null时候，Hashtable对此进行了限制，调用便会抛出空指针异常</p>
 
-<p><img src="/images/hashtable-put-nullvalue.png" alt="1565855583983" /></p>
+<p><img src="../images/hashtable-put-nullvalue.png" alt="1565855583983" /></p>
 
 <p>​       HashMap中，null可以作为主键，但是这样的主键只有一个；可以有一个或多个键的值为null。当调用get（）方法返回null值的时候，可能是HashMap中没有这个键，也可能是这个键的值是null。因此在HashMap中不能由get（）方法来判断HashMap中来判断是否有这个键，而应该使用containsKey（）来判断。</p>
 
@@ -341,7 +346,7 @@ synchronized Collection&lt;V&gt;        values()//返回包含所有value的Coll
 
 <p>​       Hashtable直接使用对象的hashCode。是JDK根据对象的地址或者字符串或者梳子算出来的int类型的数值。然后再使用除留余数发来获得最终的位置。</p>
 
-<p><img src="/images/hashtable-hashcode.png" alt="1565857460734" /></p>
+<p><img src="../images/hashtable-hashcode.png" alt="1565857460734" /></p>
 
 <p>​       Hashtable在计算元素的位置时需要进行一次除法运算，而除法运算是比较耗时间的。</p>
 
