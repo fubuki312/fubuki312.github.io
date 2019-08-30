@@ -6,46 +6,36 @@
     <description>Recent content on Fubuki</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 29 Aug 2019 16:45:39 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 10 Jun 2019 10:42:45 +0800</lastBuildDate>
     
 	<atom:link href="https://fubuki312.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>单例模式和多例模式</title>
-      <link>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
-      <pubDate>Thu, 29 Aug 2019 16:45:39 +0800</pubDate>
+      <title>Spring中的Bean的实现细节</title>
+      <link>https://fubuki312.github.io/post/spring%E4%B8%AD%E7%9A%84bean%E7%9A%84%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/</link>
+      <pubDate>Mon, 10 Jun 2019 10:42:45 +0800</pubDate>
       
-      <guid>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
-      <description>单例和多例模式的区别 在了解单例和多例的区别时，先了解什么是单例什么是多例
-单例模式 用我自己的理解，单例模式就是从始至终，使用的都是同一个实例对象，当该实例对象的属性被某个对象改变后，其余对象再去调用实例对象的属性，是改变后的值
-多例模式 每次使用实例对象，都是一个新的实例对象，当实例对象的属性被某个对象改变后，其他对象再去调用实例对象的属性，值还是原本的值，并不会因为被其他对象修改后而改变
-使用场景 在使用反射机制的时候，是比较明显的《 反射机制 》
-在使用反射机制时，如果使用多例模式，那么会创建多个实例对象，每个实例对象的内存空间地址都不一样，每次都会默认调用对象的无参构造函数进行初始化，这样不仅浪费内存空间，还会额外消耗CPU功耗
-而使用单例模式，从原理上是先将Map容器放进static静态块，从而使Map只初始化一次，之后从配置文件中拿取出所有的key进行遍历，将key存放到Map容器中，再通过反射用key获取value，从而通过反射机制来创建对象拿取value，最后将key和value存入Map容器中，此时在去Map容器中拿取类，都拿的是同一个对象，减少了内存空间的占用，提高了程序的性能</description>
-    </item>
-    
-    <item>
-      <title>记一次使用Mybatis Plus遇到的连表查询问题</title>
-      <link>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</link>
-      <pubDate>Wed, 28 Aug 2019 11:25:44 +0800</pubDate>
-      
-      <guid>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</guid>
-      <description>记一次使用Mybatis-Plus遇到的连表查询问题 一开始使用Mybatis-Plus，看到是mybatis的增强版，我以为能把繁琐的xml配置文件问题解决，事实上，也确实解决了一些，例如单表查询就不需配置xml文件，会自动映射，但是当使用连表查询的时候，就依然需要使用映射文件去配置
-首先我导入的是
-​ 导入的包不同，在配置文件中的配置也不同，见
-​ mybatis-plus的 mapper.xml 路径配置的坑
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  然后在项目配置文件中配置
-mybatis-plus: #mapper映射文件路径 mapper-locations: classpath:/mapper/*.xml #扫描实体 type-aliases-package: com.xxx.xxx.entity  SpringBoot启动类上
-@MapperScan(&amp;quot;com.xxx.xxx.mapper&amp;quot;) @SpringBootApplication public class xxxApplication { public static void main(String[] args) { SpringApplication.run(xxxApplication.class, args); } }  自定义Mapper接口继承BaseMapper
-public interface UserMapper extends BaseMapper&amp;lt;User&amp;gt;{ User selectUserByLogin(@Param(&amp;quot;name&amp;quot;) String name, @Param(&amp;quot;password&amp;quot;) String password); }  Mapper.xml文件
-&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;!DOCTYPE mapper PUBLIC &amp;quot;-//mybatis.org//DTD Mapper 3.0//EN&amp;quot; &amp;quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&amp;quot;&amp;gt; &amp;lt;mapper namespace=&amp;quot;com.xxx.xxx.mapper.UserMapper&amp;quot;&amp;gt; &amp;lt;select id=&amp;quot;selectUserByLogin&amp;quot; resultMap=&amp;quot;userLevel&amp;quot;&amp;gt; select u.</description>
+      <guid>https://fubuki312.github.io/post/spring%E4%B8%AD%E7%9A%84bean%E7%9A%84%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/</guid>
+      <description>Spring中Bean的实现细节 在了解实现细节前，先了解什么是IOC
+IOC【Inversion of Control】，就是“控制反转”，它并不是某种技术，而是一种设计思想。
+在常规Java开发中，我们需要某个类，就直接创建某个类的实例对象，是程序去主动创建自己所依赖的对象，控制权在你
+而IOC则是先会有一个容器，也叫工厂，当你要使用某个类的时候，就要先通过工厂去找寻某个类，再由工厂将找到的类返回给你，此时控制权，交由给工厂，由工厂决定返回给你什么样的对象。
+可以参考《 反射机制 》，BeanFactory就是一个工厂。
+我们知道Spring有一个配置文件，叫ApplicationContext.xml
+这个配置文件，其实也就是Spring中的容器，可以通过这个容器将对象的创建交给Spring来管理
+那么，Spring是如何对对象进行管理的呢？
+Spring对bean的管理细节 首先我们创建一个user类来测试
+public class User{ //无参构造函数 public User(){} //有参构造函数 public User(String name){ System.out.println(&amp;quot;大家好，我叫：&amp;quot;+name) } public User getUser(){ return new User(); } //测试方法 public void sayHi(){ System.out.println(&amp;quot;大家好，欢迎访问我的博客&amp;quot;); } }  1.创建bean的三种方式 1.1使用默认构造函数创建 我们先将无参构造函数删除，将以下配置添加进applicationcontext.xml配置文件中
+//只配置id和class属性，不配置其他的属性 &amp;lt;bean id = &amp;quot;user&amp;quot; class=&amp;quot;com.demo.test.Entity.User&amp;quot;&amp;gt;&amp;lt;/bean&amp;gt;  不运行之前，我们都知道一个类，如果没写无参构造函数，会默认有一个无参构造函数，但是当写了有参构造函数而没写无参构造函数时，实例化该类必须使用有参构造函数，用有参方式实例会出现编译期报错。
+下面我们运行测试一遍
+public static void main(String [] args){ ApplicationContext context = new ClassPathXmlApplicationContext(&amp;quot;applicationcontext.xml&amp;quot;) User user = (User)context.getBean(user);//拿取配置文件中的bean的id user.</description>
     </item>
     
     <item>
       <title>RestTemplateNotFound解决办法</title>
       <link>https://fubuki312.github.io/post/resttemplatenotfound%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
-      <pubDate>Wed, 28 Aug 2019 10:51:54 +0800</pubDate>
+      <pubDate>Sat, 08 Jun 2019 10:51:54 +0800</pubDate>
       
       <guid>https://fubuki312.github.io/post/resttemplatenotfound%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
       <description>RestTemplate通过@Resource报：could not be found 当我在一个项目中创建俩个springBoot子模块，把实体、dao层、映射层都配置完毕后
@@ -62,24 +52,40 @@ private RestTemplate restTemplate; private ClientHttpRequestFactory factory; @Au
     </item>
     
     <item>
-      <title>Java反射机制</title>
-      <link>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</link>
-      <pubDate>Mon, 29 Jul 2019 14:18:23 +0800</pubDate>
+      <title>记一次使用Mybatis Plus遇到的连表查询问题</title>
+      <link>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 07 Jun 2019 11:25:44 +0800</pubDate>
       
-      <guid>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</guid>
-      <description>什么是Java反射机制？ 首先，反射机制的功能都在java.lang.reflect包中
-Java反射机制就是在程序运行的时候，可以通过制定的类名来获得类的信息。
-像我们平常写Java代码，要使用某个类的时候，通常会使用new来实例化一个类对象，如果不将此类实例化，那么代码在编译期间就会报错，无法正常写下去。所以反射机制就是在编译期不具体指定哪个类被实例化了，而是在程序运行的时候才会指定、加载某个类，使用编译期间并不知道的嘞，这样就是反射。
-那我们要怎么去使用呢？ 首先在Java中创建一个类，例如该类的包名为com.demo.test.entity
-public class User{ private String userName; private int age = 1; public String sayHi(){ age++; return &amp;quot;大家好，我是渣渣辉，今年：&amp;quot;+age+&amp;quot;岁&amp;quot;; } }  在resource文件夹中创建一个bean.properties文件
-#写上全限定类名 #根据key=value的形式进行存储 user=com.demo.test.entity.User  创建一个类用于实现反射机制
-public class BeanFactory{ //定义一个properties对象 private static Properties properties; //使用静态代码块为properties对象赋值 static { //实例化对象 properties = new Properties(); //获取properties文件的流对象 InputStream inputStream = BeanFactory.class.getClassLoader().getResourceAsStream(&amp;quot;bean.properties&amp;quot;); try{ properties.load(inputStream); }catch (Exception e){ throw new ExceptionInInitializerError(&amp;quot;初始化properties失败&amp;quot;); } } /** * 根据Bean的名称获取Bean对象 * @param beanName * @return */ public static Object getBean(String beanName){ Object bean = null; try{ //通过指定key，拿取全限定类名 String beanPath = properties.</description>
+      <guid>https://fubuki312.github.io/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BD%BF%E7%94%A8mybatis-plus%E9%81%87%E5%88%B0%E7%9A%84%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E9%97%AE%E9%A2%98/</guid>
+      <description>记一次使用Mybatis-Plus遇到的连表查询问题 一开始使用Mybatis-Plus，看到是mybatis的增强版，我以为能把繁琐的xml配置文件问题解决，事实上，也确实解决了一些，例如单表查询就不需配置xml文件，会自动映射，但是当使用连表查询的时候，就依然需要使用映射文件去配置
+首先我导入的是
+​ 导入的包不同，在配置文件中的配置也不同，见
+​ mybatis-plus的 mapper.xml 路径配置的坑
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  然后在项目配置文件中配置
+mybatis-plus: #mapper映射文件路径 mapper-locations: classpath:/mapper/*.xml #扫描实体 type-aliases-package: com.xxx.xxx.entity  SpringBoot启动类上
+@MapperScan(&amp;quot;com.xxx.xxx.mapper&amp;quot;) @SpringBootApplication public class xxxApplication { public static void main(String[] args) { SpringApplication.run(xxxApplication.class, args); } }  自定义Mapper接口继承BaseMapper
+public interface UserMapper extends BaseMapper&amp;lt;User&amp;gt;{ User selectUserByLogin(@Param(&amp;quot;name&amp;quot;) String name, @Param(&amp;quot;password&amp;quot;) String password); }  Mapper.xml文件
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;!DOCTYPE mapper PUBLIC &amp;quot;-//mybatis.org//DTD Mapper 3.0//EN&amp;quot; &amp;quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&amp;quot;&amp;gt; &amp;lt;mapper namespace=&amp;quot;com.xxx.xxx.mapper.UserMapper&amp;quot;&amp;gt; &amp;lt;select id=&amp;quot;selectUserByLogin&amp;quot; resultMap=&amp;quot;userLevel&amp;quot;&amp;gt; select u.</description>
+    </item>
+    
+    <item>
+      <title>单例模式和多例模式</title>
+      <link>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 03 Jun 2019 16:45:39 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例和多例模式的区别 在了解单例和多例的区别时，先了解什么是单例什么是多例
+单例模式 用我自己的理解，单例模式就是从始至终，使用的都是同一个实例对象，当该实例对象的属性被某个对象改变后，其余对象再去调用实例对象的属性，是改变后的值
+多例模式 每次使用实例对象，都是一个新的实例对象，当实例对象的属性被某个对象改变后，其他对象再去调用实例对象的属性，值还是原本的值，并不会因为被其他对象修改后而改变
+使用场景 在使用反射机制的时候，是比较明显的《 反射机制 》
+在使用反射机制时，如果使用多例模式，那么会创建多个实例对象，每个实例对象的内存空间地址都不一样，每次都会默认调用对象的无参构造函数进行初始化，这样不仅浪费内存空间，还会额外消耗CPU功耗
+而使用单例模式，从原理上是先将Map容器放进static静态块，从而使Map只初始化一次，之后从配置文件中拿取出所有的key进行遍历，将key存放到Map容器中，再通过反射用key获取value，从而通过反射机制来创建对象拿取value，最后将key和value存入Map容器中，此时在去Map容器中拿取类，都拿的是同一个对象，减少了内存空间的占用，提高了程序的性能</description>
     </item>
     
     <item>
       <title>解析HashMap源码</title>
       <link>https://fubuki312.github.io/post/%E8%A7%A3%E6%9E%90hashmap%E6%BA%90%E7%A0%81/</link>
-      <pubDate>Fri, 29 Mar 2019 14:47:08 +0800</pubDate>
+      <pubDate>Wed, 29 May 2019 14:47:08 +0800</pubDate>
       
       <guid>https://fubuki312.github.io/post/%E8%A7%A3%E6%9E%90hashmap%E6%BA%90%E7%A0%81/</guid>
       <description>抽空花时间自己去看了下，以及网上查阅各种资料，自己的一个理解
@@ -89,7 +95,7 @@ package java.util; import java.io.*; public class HashMap&amp;lt;K,V&amp;gt; ext
     <item>
       <title>Hashtable和HashMap的区别</title>
       <link>https://fubuki312.github.io/post/hashtable%E5%92%8Chashmap%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
-      <pubDate>Wed, 27 Mar 2019 13:32:26 +0800</pubDate>
+      <pubDate>Mon, 27 May 2019 13:32:26 +0800</pubDate>
       
       <guid>https://fubuki312.github.io/post/hashtable%E5%92%8Chashmap%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
       <description>HashMap介绍 HashMap简介 ​ 是一个散列表，它存储的内容是键值对映射。
@@ -101,6 +107,21 @@ HashMap的构造函数 ​ 默认构造函数
 /** * 构建一个新的空哈希表，具有默认初始容量（16），和负载系数（0.75） */ public HashMap() { this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted }  ​ 指定&amp;rdquo;容量大小&amp;rdquo;的构造函数
 /** * 使用指定的初始容量构建新的空哈希表和默认负载系数（0.75） * * @param 初始哈希表的容量 * @exception 非法参数异常，如果初始量过小或小于0 */ public HashMap(int initialCapacity) { this(initialCapacity, DEFAULT_LOAD_FACTOR); }  ​ 指定&amp;rdquo;容量大小&amp;rdquo;和&amp;rdquo;加载因子&amp;rdquo;的构造函数
 /** * 使用指定的初始容量构建心的空哈希表，指定容量和指定的负载系数 * * @param 初始哈希表的容量 * @param 负载系数 * @exception 非法参数异常，如果初始量或负载因子为非正数 */ public HashMap(int initialCapacity, float loadFactor) { if (initialCapacity &amp;lt; 0) throw new IllegalArgumentException(&amp;quot;Illegal initial capacity: &amp;quot; + initialCapacity); if (initialCapacity &amp;gt; MAXIMUM_CAPACITY) initialCapacity = MAXIMUM_CAPACITY; if (loadFactor &amp;lt;= 0 || Float.</description>
+    </item>
+    
+    <item>
+      <title>Java反射机制</title>
+      <link>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</guid>
+      <description>什么是Java反射机制？ 首先，反射机制的功能都在java.lang.reflect包中
+Java反射机制就是在程序运行的时候，可以通过制定的类名来获得类的信息。
+像我们平常写Java代码，要使用某个类的时候，通常会使用new来实例化一个类对象，如果不将此类实例化，那么代码在编译期间就会报错，无法正常写下去。所以反射机制就是在编译期不具体指定哪个类被实例化了，而是在程序运行的时候才会指定、加载某个类，使用编译期间并不知道的嘞，这样就是反射。
+那我们要怎么去使用呢？ 首先在Java中创建一个类，例如该类的包名为com.demo.test.entity
+public class User{ private String userName; private int age = 1; public String sayHi(){ age++; return &amp;quot;大家好，我是渣渣辉，今年：&amp;quot;+age+&amp;quot;岁&amp;quot;; } }  在resource文件夹中创建一个bean.properties文件
+#写上全限定类名 #根据key=value的形式进行存储 user=com.demo.test.entity.User  创建一个类用于实现反射机制
+public class BeanFactory{ //定义一个properties对象 private static Properties properties; //使用静态代码块为properties对象赋值 static { //实例化对象 properties = new Properties(); //获取properties文件的流对象 InputStream inputStream = BeanFactory.class.getClassLoader().getResourceAsStream(&amp;quot;bean.properties&amp;quot;); try{ properties.load(inputStream); }catch (Exception e){ throw new ExceptionInInitializerError(&amp;quot;初始化properties失败&amp;quot;); } } /** * 根据Bean的名称获取Bean对象 * @param beanName * @return */ public static Object getBean(String beanName){ Object bean = null; try{ //通过指定key，拿取全限定类名 String beanPath = properties.</description>
     </item>
     
   </channel>
