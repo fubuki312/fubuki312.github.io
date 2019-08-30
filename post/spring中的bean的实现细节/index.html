@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
+  <meta name="Description" content="Fubuki | ">
+  <title>
+    
+    
+    Spring中的Bean的实现细节 - Fubuki
+    
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/highlight/styles/github-gist.css">  
+  <link rel="canonical" href="https://fubuki312.github.io/post/spring%E4%B8%AD%E7%9A%84bean%E7%9A%84%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/">
+  <link href="" rel="alternate" type="application/rss+xml" title="Spring中的Bean的实现细节" />
+   </head>
+   <body data-spy="scroll" data-target="#toc">
+     <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://fubuki312.github.io/">Fubuki</a>
+    </div>
+
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+	
+	
+	<li  ><a href="/">Home</a></li>
+      </ul>
+    </nav>
+</header>
+
+     <div class="jumbotron masthead" style="height:90vh;" style role="main">
+       <div class="container"  style="height: 100%;" >
+	 <div class="row">
+
+ 	   <div class="col-md-8 col-md-offset-2 ">
+	   
+<div class="panel panel-default">
+  <div class="panel-body">
+      <article id='post' >
+	<div class='title'> Spring中的Bean的实现细节 </div>
+	  
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp;Mon Jun 10, 2019 | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: 219&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: 2 Minute&nbsp;&nbsp;</span>
+
+	  
+
+<h3 id="spring中bean的实现细节">Spring中Bean的实现细节</h3>
+
+<p>在了解实现细节前，先了解什么是IOC</p>
+
+<p>IOC【<strong>Inversion of Control</strong>】，就是“控制反转”，它并不是某种技术，而是一种设计思想。</p>
+
+<p>在常规Java开发中，我们需要某个类，就直接创建某个类的实例对象，是程序去主动创建自己所依赖的对象，控制权在你</p>
+
+<p>而IOC则是先会有一个容器，也叫工厂，当你要使用某个类的时候，就要先通过工厂去找寻某个类，再由工厂将找到的类返回给你，此时控制权，交由给工厂，由工厂决定返回给你什么样的对象。</p>
+
+<p>可以参考《 <a href="反射机制">反射机制</a> 》，BeanFactory就是一个工厂。</p>
+
+<p>我们知道Spring有一个配置文件，叫ApplicationContext.xml</p>
+
+<p>这个配置文件，其实也就是Spring中的容器，可以通过这个容器将对象的创建交给Spring来管理</p>
+
+<p>那么，Spring是如何对对象进行管理的呢？</p>
+
+<h4 id="spring对bean的管理细节">Spring对bean的管理细节</h4>
+
+<p>首先我们创建一个user类来测试</p>
+
+<pre><code class="language-java">public class User{
+    //无参构造函数
+    public User(){}
+    //有参构造函数
+    public User(String name){
+        System.out.println(&quot;大家好，我叫：&quot;+name)
+    }
+    public User getUser(){
+        return new User();
+    }
+    //测试方法
+    public void sayHi(){
+        System.out.println(&quot;大家好，欢迎访问我的博客&quot;);
+    }
+}
+</code></pre>
+
+<h5 id="1-创建bean的三种方式">1.创建bean的三种方式</h5>
+
+<h6 id="1-1使用默认构造函数创建">1.1使用默认构造函数创建</h6>
+
+<p>我们先将无参构造函数删除，将以下配置添加进applicationcontext.xml配置文件中</p>
+
+<pre><code class="language-xml">//只配置id和class属性，不配置其他的属性
+&lt;bean  id = &quot;user&quot; class=&quot;com.demo.test.Entity.User&quot;&gt;&lt;/bean&gt;
+</code></pre>
+
+<p>不运行之前，我们都知道一个类，如果没写无参构造函数，会默认有一个无参构造函数，但是当写了有参构造函数而没写无参构造函数时，实例化该类必须使用有参构造函数，用有参方式实例会出现编译期报错。</p>
+
+<p>下面我们运行测试一遍</p>
+
+<pre><code class="language-java">public static void main(String [] args){
+    ApplicationContext context = new ClassPathXmlApplicationContext(&quot;applicationcontext.xml&quot;)
+    User user = (User)context.getBean(user);//拿取配置文件中的bean的id
+    user.sayHi();
+}
+</code></pre>
+
+<p>运行结果是报错的，报错信息是</p>
+
+<pre><code class="language-java">Error creating bean with name 'user' defined in class path resource [applicationcontext.xml]: Instantiation of bean failed;
+</code></pre>
+
+<p>因为配置文件中并没有配置有参构造函数的参数，而Spring容器默认是使用类的默认构造函数，也就是无参构造函数，所以会报错。</p>
+
+<p>我们有俩种解决方案，第一种是修改User类，将无参构造函数添加回来即可，但是如果User类是你导入的jar包中的类，是字节码文件，你无法修改，那么怎么办呢？</p>
+
+<p>接下来就是第二种方法：</p>
+
+<h6 id="1-2使用工厂中的方法或者使用某个类中的方法创建对象-并存入spring容器">1.2使用工厂中的方法或者使用某个类中的方法创建对象，并存入Spring容器</h6>
+
+<p>接下来我们添加一个instanceUser类，模拟jar包中的类</p>
+
+<pre><code class="language-java">public class InstanceUser{
+    public User getUser(){
+        return new User(&quot;渣渣辉&quot;);
+    }
+}
+</code></pre>
+
+<p>然后修改配置文件</p>
+
+<pre><code class="language-xml">&lt;bean id = &quot;instanceUser&quot; class = &quot;com.demo.test.Entity.InstanceUser&quot;&gt;&lt;/bean&gt;
+&lt;bean id = &quot;user&quot; factory-bean = &quot;instanceUser&quot; factory-method = &quot;getUser&quot;&gt;&lt;/bean&gt;
+</code></pre>
+
+<p>再进行测试</p>
+
+<p>运行结果</p>
+
+<pre><code class="language-java">大家好，我叫：渣渣辉
+大家好，欢迎访问我的博客
+</code></pre>
+
+<p>可以看到程序是正常运行的，而且正确输出，但是有一个疑问，如果jar包中的返回实例方法是静态的，那么我们按照上面就无法正常运行，接下来就使用第三种方式</p>
+
+<h6 id="1-3使用工厂的静态方法-某个类的静态方法创建对象-并存入spring容器">1.3使用工厂的静态方法/某个类的静态方法创建对象，并存入Spring容器</h6>
+
+<p>修改instanceUser类</p>
+
+<pre><code class="language-java">public class InstanceUser{
+    public static User getUser(){
+        return new User(&quot;渣渣辉&quot;);
+    }
+}
+</code></pre>
+
+<p>配置文件</p>
+
+<pre><code class="language-xml">&lt;bean id = &quot;instanceUser&quot; class = &quot;com.demo.test.Entity.InstanceUser&quot; factory-method=&quot;getUser&quot;&gt;&lt;/bean&gt;
+
+</code></pre>
+
+<p>然后运行，程序也是正常运行，运行结果</p>
+
+<pre><code class="language-java">大家好，我叫：渣渣辉
+大家好，欢迎访问我的博客
+
+</code></pre>
+
+<p>Spring实现了各种对Bean的注入，已经各种可能的存在及解决方法都帮我们实现了</p>
+
+<h5 id="2-bean对象的作用范围">2.bean对象的作用范围</h5>
+
+<p>默认情况下，Spring容器中类，都是单例模式的，我们测试一下就知道了</p>
+
+<pre><code class="language-java">public static void main(String [] args){
+    public static void main(String [] args){
+    	ApplicationContext context = new ClassPathXmlApplicationContext(&quot;applicationcontext.xml&quot;)
+    	User user1 = (User)context.getBean(user);//拿取配置文件中的bean的id
+    	User user2 = (User)context.getBean(user);
+    	System.out.print(user1 == user2);
+    }
+}
+
+</code></pre>
+
+<p>输出结果为true，也就是俩个对象是相同一个对象</p>
+
+<p>如果不知道单例和多例的区别，看这篇《 <a href="单例模式和多例模式">单例模式和多例模式</a> 》</p>
+
+<p>如果我们在某些情况下要使用多例，那怎么去调整呢？</p>
+
+<p>在bean标签中，有一个属性，为scope属性，它的作用就是指定bean对象的一个作用范围</p>
+
+<p>取值：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">取值</th>
+<th>作用范围</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><strong>singleton</strong></td>
+<td>单例（默认）</td>
+</tr>
+
+<tr>
+<td align="left"><strong>prototype</strong></td>
+<td>多例</td>
+</tr>
+
+<tr>
+<td align="left"><strong>request</strong></td>
+<td>用于web的请求范围</td>
+</tr>
+
+<tr>
+<td align="left"><strong>session</strong></td>
+<td>用于web的会话范围</td>
+</tr>
+
+<tr>
+<td align="left"><strong>global-session</strong></td>
+<td>用于集群环境的会话范围</td>
+</tr>
+</tbody>
+</table>
+
+<h5 id="3-bean对象的生命周期">3.bean对象的生命周期</h5>
+
+<p>生命周期，就是一个对象的创建、存在、销毁</p>
+
+<p>单例对象和多例对象的生命周期是不同的</p>
+
+<table>
+<thead>
+<tr>
+<th>单例对象的生命周期</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>创建：当容器创建时候（applicationcontext对象或者ClassPathXmlApplicationContext被创建），对象就被创建</td>
+</tr>
+
+<tr>
+<td>存在：只要容器一直存在，对象也会一直存在</td>
+</tr>
+
+<tr>
+<td>销毁：容器销毁时（ClassPathXmlApplicationContext.close()），对象也会销毁</td>
+</tr>
+
+<tr>
+<td>总结：单例对象的生命周期跟容器挂钩</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>多例对象的生命周期</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>创建：当我们使用对象的时候（User user = (User)context.getBean(user)），Spring框架为我们创建</td>
+</tr>
+
+<tr>
+<td>存在：对象只要在使用过程中，就会一直存在</td>
+</tr>
+
+<tr>
+<td>销毁：当对象长时间不用且没有别的对象引用时，由java的垃圾回收期来回收</td>
+</tr>
+
+<tr>
+<td>总结：多例对象的生命周期与容器无关，只与程序使用多例对象的时间有关系</td>
+</tr>
+</tbody>
+</table>
+
+
+	  
+	  	  <div class="tags">	
+
+	      
+	    
+
+	    	  </div>
+	    
+
+
+      </div>
+      </div></article>
+
+
+	 </div>
+
+	 </div>
+       </div>
+     </div>
+
+
+   </body>
+     <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/holder.min.js" type='text/javascript'></script>
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+  <script src="/highlight/highlight.pack.js" type='text/javascript'></script>
+  <script src="/highlight/highlightjs-line-numbers.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    
+    hljs.initHighlightingOnLoad();
+    $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+    hljs.lineNumbersBlock(block);
+    });
+});
+  </script>
+
+</html>
