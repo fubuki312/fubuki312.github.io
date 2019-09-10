@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="XN4YmHgE76jTp2kNQ9qnsVSApl6yIQBzdyLe0BnbFks" />
+  <meta name="Description" content="Fubuki | ">
+  <title>
+    
+    
+    Java运算符的使用 - Fubuki
+    
+  </title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/highlight/styles/github-gist.css">  
+  <link rel="canonical" href="https://fubuki312.github.io/post/java%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+  <link href="" rel="alternate" type="application/rss+xml" title="Java运算符的使用" />
+   </head>
+   <body data-spy="scroll" data-target="#toc">
+     <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://fubuki312.github.io/">Fubuki</a>
+    </div>
+
+    
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+	
+	
+	<li  ><a href="/">Home</a></li>
+      </ul>
+    </nav>
+</header>
+
+     <div class="jumbotron masthead" style="height:90vh;" style role="main">
+       <div class="container"  style="height: 100%;" >
+	 <div class="row">
+
+ 	   <div class="col-md-8 col-md-offset-2 ">
+	   
+<div class="panel panel-default">
+  <div class="panel-body">
+      <article id='post' >
+	<div class='title'> Java运算符的使用 </div>
+	  
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp;Thu Jun 20, 2019 | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: 121&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: 1 Minute&nbsp;&nbsp;</span>
+
+	  
+
+<h3 id="java位移符的使用">Java位移符的使用</h3>
+
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th></th>
+<th>运用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移</td>
+<td>3&lt;&lt;N = 3*2的N次方</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;</td>
+<td>右移</td>
+<td>3&gt;&gt;N = 3*2的-N次方</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;&gt;</td>
+<td>无符号右移</td>
+<td>3&gt;&gt;&gt; N = <sup>3</sup>&frasl;<sub>2</sub></td>
+</tr>
+
+<tr>
+<td>&amp;</td>
+<td>与运算</td>
+<td>6 &amp; 3 = 2</td>
+</tr>
+
+<tr>
+<td>|</td>
+<td>或运算</td>
+<td>6 | 3 = 7</td>
+</tr>
+
+<tr>
+<td>^</td>
+<td>异或运算</td>
+<td>6 ^ 3 = 5</td>
+</tr>
+
+<tr>
+<td>~</td>
+<td>反码</td>
+<td>~6 = -7</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>位运算，都是直接对二进制进行运算</strong></p>
+
+<hr />
+
+<p>首先我们了解什么是二进制</p>
+
+<p>根据百度的二进制百度百科，一个二进制的大小为1byte（字节），1byte为8位，1位有4个0或1组成</p>
+
+<p>所以可以得出，一个完整的二进制格式为</p>
+
+<p>0000 0000 0000 0000 0000 0000 0000 0000</p>
+
+<p>任何数据都是以二进制的方式存储到电脑上的，那么是如何将数据转换为2进制的呢？以数字66为例</p>
+
+<p><img src="images/Binary-66.png" alt="Binary-66" /></p>
+
+<p>就是将66一直除以2，直到商为0或1时为止，如果除数 余1或整除为0，那就把余记下来，就得到了我们的二进制码，再将二进制码从下往上排列，得到0100 0010。可以看到我在1前面补了一个0，为什么要补0呢，因为前面提到1byte为8位，每一位有4个0或1组成，但是66除下来是1000010，明显没有8个，所以我们就要在前面用0替补，一个完整的二进制码应如下</p>
+
+<p>0000 0000 0000 0000 0000 0000 0100 0010</p>
+
+<p>需记住，正数的二进制码，如数量不够，则使用0来凑</p>
+
+<hr />
+
+<p>二进制具体的不再赘述，只是简单介绍下二进制，接下来我们介绍位移符是如何对二进制进行操作的</p>
+
+<h5 id="左位移和右位移">左位移和右位移</h5>
+
+<p><img src="images/Binary.png" alt="Binary" /></p>
+
+<p>惯例上图，左位移右位移，就是将二进制码中的值向左或向右边移动，超出红线（1byte长度）的祛除掉，长度不够就凑0，位移多少位就补多少个0</p>
+
+<p>记二进制太麻烦，我们直接用公式来算会更好</p>
+
+<p>只需记住</p>
+
+<p>左移：m &lt;&lt; n = m*2^n</p>
+
+<p>右移：m &gt;&gt; n = m*2^-n</p>
+
+<p>接下来我们来看看无符号右移</p>
+
+<h5 id="无符号右移">无符号右移</h5>
+
+<p>首先注意，只有无符号右移，没有无符号左移</p>
+
+<p>当无符号右移的值为正数的时候，运算方式与右移一致</p>
+
+<p>例：8 &gt;&gt;&gt; 2 = 2  = 8 &gt;&gt; 2</p>
+
+<p>当无符号右移的值为负数的时候，运算方式就不一样了</p>
+
+<p>例 ： -8 &gt;&gt; 2 = -2，而 -8 &gt;&gt;&gt; 2 = 1073741822</p>
+
+<p>为什么呢？我们来看图，简单的看下使用负数进行右位移和无符号右移的差别</p>
+
+<p><img src="images/Binary-right.png" alt="Binary-right" /></p>
+
+<p>当使用负数右位移的时候，最高位补的是1，为什么呢？其实也并不一定是补1，而是看移动后，在未进行部位的情况下，看最前面的数字是啥，如果是0则补0，是1则补1</p>
+
+<p>而使用无符号右移呢，则前面的补位为正负号，如果是1则是负数，是0则是正数，这也是为什么它叫无符号右移，就是位移后进行补位的都是0，不会有负数存在。</p>
+
+<hr />
+
+<h5 id="与运算-和或运算">与运算&amp;和或运算|</h5>
+
+<p><img src="images/yuhuo.png" alt="yuhuo" /></p>
+
+<p>与运算看图就能看出大概的一个逻辑，就是二进制码进行对比，如果同位有0，那么新的位置上就写0，如果俩个都是1，则写1</p>
+
+<p>或运算则是和与运算恰恰相反的，是如果同位有1，就写1，俩个都是0则写0。俩者简单易懂。</p>
+
+<h5 id="异或运算">异或运算^</h5>
+
+<p><img src="images/yihuo.png" alt="yihuo" /></p>
+
+<p>看图，可以得出规律：同位都是0或都是1的时候，写0，其他情况都是1</p>
+
+<h5 id="反码">反码~</h5>
+
+<p>反码比较简单，就是0和1互相转换，0变成1,1变成0</p>
+
+
+	  
+	  	  <div class="tags">	
+
+	      
+	    
+
+	    	  </div>
+	    
+
+
+      </div>
+      </div></article>
+
+
+	 </div>
+
+	 </div>
+       </div>
+     </div>
+
+
+   </body>
+     <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/holder.min.js" type='text/javascript'></script>
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+  <script src="/highlight/highlight.pack.js" type='text/javascript'></script>
+  <script src="/highlight/highlightjs-line-numbers.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+    
+    hljs.initHighlightingOnLoad();
+    $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+    hljs.lineNumbersBlock(block);
+    });
+});
+  </script>
+
+</html>
