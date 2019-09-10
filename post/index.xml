@@ -10,7 +10,14 @@
     
 	<atom:link href="https://fubuki312.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
+    <item>
+      <title>Java运算符的使用</title>
+      <link>https://fubuki312.github.io/post/java%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Thu, 20 Jun 2019 08:36:28 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/java%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>Java位移符的使用    运算符  运用     &amp;lt;&amp;lt; 左移 3&amp;lt;&amp;lt;N = 3*2的N次方   &amp;gt;&amp;gt; 右移 3&amp;gt;&amp;gt;N = 3*2的-N次方   &amp;gt;&amp;gt;&amp;gt; 无符号右移 3&amp;gt;&amp;gt;&amp;gt; N = 3&amp;frasl;2   &amp;amp; 与运算 6 &amp;amp; 3 = 2   | 或运算 6 | 3 = 7   ^ 异或运算 6 ^ 3 = 5   ~ 反码 ~6 = -7    位运算，都是直接对二进制进行运算</description>
+    </item>
     <item>
       <title>Spring中的Bean的实现细节</title>
       <link>https://fubuki312.github.io/post/spring%E4%B8%AD%E7%9A%84bean%E7%9A%84%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/</link>
