@@ -9,7 +9,15 @@
     <lastBuildDate>Mon, 10 Jun 2019 10:42:45 +0800</lastBuildDate>
     
 	<atom:link href="https://fubuki312.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    
+      <item>
+      <title>redis远程连接报错protected-mode</title>
+      <link>https://fubuki312.github.io/post/redis%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%8A%A5%E9%94%99protected-mode/</link>
+      <pubDate>Tue, 24 Sep 2019 17:41:14 +0800</pubDate>
+      
+      <guid>https://fubuki312.github.io/post/redis%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%8A%A5%E9%94%99protected-mode/</guid>
+      <description>防火墙端口无问题的情况下，使用telnet进行测试连接时，连接后报出如下错误
+-DENIED Redis is running in protected mode because protected mode is enabled, no bind address was specified, no authentication password is requested to clients. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command &#39;CONFIG SET protected-mode no&#39; from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so.</description>
+    </item>
     <item>
       <title>Java运算符的使用</title>
       <link>https://fubuki312.github.io/post/java%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
